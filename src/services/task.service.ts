@@ -17,7 +17,7 @@ export const createTask = async (taskPayload: ICreateTask): Promise<ITask> => {
   return task;
 };
 
-export const findAllTask = async (): Promise<ITask[]> => {
+export const findAllTasks = async (): Promise<ITask[]> => {
   const tasks = await prisma.task.findMany({});
   return tasks;
 };
