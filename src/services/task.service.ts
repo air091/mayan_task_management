@@ -2,7 +2,7 @@ import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
 import type { ICreateTask, ITask } from "../types/task.types";
 
-export const addTask = async (taskPayload: ICreateTask): Promise<ITask> => {
+export const createTask = async (taskPayload: ICreateTask): Promise<ITask> => {
   if (!taskPayload.title) throw new AppError("All fields are required", 400);
 
   taskPayload.title = taskPayload.title.trim();

@@ -1,11 +1,11 @@
 import type { Request, Response } from "express";
 import { AppError } from "../libs/errors";
-import { addTask } from "../services/task.service";
+import { createTask } from "../services/task.service";
 
 export const postTask = async (request: Request, response: Response) => {
   try {
     const { title, description } = request.body;
-    const task = await addTask({ title, description });
+    const task = await createTask({ title, description });
     return response
       .status(201)
       .json({ success: true, message: "Task created successfully", task });
