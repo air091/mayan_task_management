@@ -5,6 +5,7 @@ import taskRoute from "./routes/task.route";
 const app = express();
 const port = process.env.PORT || "8000";
 
+app.use(express.json());
 app.use("/api/tasks", taskRoute);
 
 const startServer = () => {
