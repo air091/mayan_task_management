@@ -17,7 +17,7 @@ export const createTask = async (taskPayload: ICreateTask): Promise<ITask> => {
   return task;
 };
 
-export const getTaskById = async (id: string) => {
+export const findTaskById = async (id: string) => {
   if (!id) throw new AppError("Task ID is required", 404);
   const task = await prisma.task.findUnique({ where: { id } });
   if (!task) throw new AppError("Task not found", 404);
