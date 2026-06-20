@@ -7,8 +7,41 @@ import {
   findAllTasks,
   findTaskById,
   removeTask,
+  searchTaskName,
   startTask,
 } from "../services/task.service";
+
+export const searchTaskByNameController = async (
+  request: Request,
+  response: Response,
+) => {
+  try {
+    const { title } = request.query;
+
+    if (!title || typeof title !== "string")
+      return response
+        .status(400)
+        .json({ success: false, message: "Title is required to search" });
+
+    const tasks = await searchTaskName(title as string);
+    return response
+      .status(200)
+      .json({ success: true, message: "Tasks fetched successfully", tasks });
+  } catch (error) {
+    console.error("Post task failed", error);
+    let errMessage = "Internal server error";
+    let statusCode = 500;
+
+    if (error instanceof AppError) {
+      errMessage = error.message;
+      statusCode = error.statusCode;
+    }
+
+    return response
+      .status(statusCode)
+      .json({ success: false, message: errMessage });
+  }
+};
 
 export const postTask = async (request: Request, response: Response) => {
   try {

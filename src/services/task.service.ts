@@ -2,6 +2,22 @@ import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
 import type { ITask, ITaskPayload } from "../types/task.types";
 
+export const searchTaskName = async (title: string) => {
+  if (!title) throw new AppError("No title", 400);
+  const task = await prisma.task.findMany({
+    where: {
+      title: {
+        contains: title,
+        mode: "insensitive",
+      },
+    },
+  });
+
+  if (!task) throw new AppError("Task not found", 404);
+
+  return task;
+};
+
 export const createTask = async (taskPayload: ITaskPayload): Promise<ITask> => {
   if (!taskPayload.title) throw new AppError("All fields are required", 400);
 
@@ -63,6 +79,13 @@ export const startTask = async (id: string) => {
     const task = await tx.task.findUnique({ where: { id } });
     if (!task) throw new AppError("Task not found", 404);
 
+    const isTaskStarted = await tx.task.findFirst({
+      where: { id: task.id, NOT: { startedAt: null } },
+      select: { id: true },
+    });
+
+    if (isTaskStarted) throw new AppError("Task already started", 409);
+
     return await tx.task.updateMany({
       where: { id, startedAt: null },
       data: { startedAt: new Date() },
@@ -82,7 +105,7 @@ export const endTask = async (id: string) => {
     if (!task) throw new AppError("Task not found", 404);
 
     return await tx.task.updateMany({
-      where: { id, startedAt: task.startedAt, endedAt: null },
+      where: { id, NOT: { startedAt: null }, endedAt: null },
       data: { endedAt: new Date() },
     });
   });
