@@ -11,3 +11,8 @@ export interface ITaskPayload {
   title: string;
   description: string;
 }
+
+export interface IDeletedTask {
+  id: string;
+  isComplete: boolean;
+}

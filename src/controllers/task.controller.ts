@@ -5,6 +5,7 @@ import {
   editTask,
   findAllTasks,
   findTaskById,
+  markTask,
   removeTask,
 } from "../services/task.service";
 
@@ -83,6 +84,32 @@ export const putTask = async (request: Request, response: Response) => {
     return response
       .status(200)
       .json({ success: true, message: "Task updated successfully", task });
+  } catch (error) {
+    console.error("Get task by id failed", error);
+
+    let errMessage = "Internal server error";
+    let statusCode = 500;
+
+    if (error instanceof AppError) {
+      errMessage = error.message;
+      statusCode = error.statusCode;
+    }
+
+    return response.status(statusCode).json({ message: errMessage });
+  }
+};
+
+export const markTaskController = async (
+  request: Request,
+  response: Response,
+) => {
+  try {
+    const { taskId } = request.params;
+    const task = await markTask(taskId as string);
+    return response.status(200).json({
+      success: true,
+      message: `Task marked as ${task.isComplete ? "completed" : "incomplete"}`,
+    });
   } catch (error) {
     console.error("Get task by id failed", error);
 

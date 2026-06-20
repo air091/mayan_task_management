@@ -1,6 +1,6 @@
 import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
-import type { ITask, ITaskPayload } from "../types/task.types";
+import type { IDeletedTask, ITask, ITaskPayload } from "../types/task.types";
 
 export const createTask = async (taskPayload: ITaskPayload): Promise<ITask> => {
   if (!taskPayload.title) throw new AppError("All fields are required", 400);
@@ -60,20 +60,40 @@ export const markTask = async (id: string) => {
   if (!id) throw new AppError("Task ID is required", 400);
 
   const result = await prisma.$transaction(async (tx) => {
-    const task = await tx.task.findUnique({ where: { id } });
+    const task = await prisma.task.findUnique({
+      where: { id },
+      select: { id: true, isComplete: true },
+    });
     if (!task) throw new AppError("Task not found", 404);
 
-    await tx.task.updateMany({
+    const updatedTask = await prisma.task.update({
       where: { id },
       data: { isComplete: !task.isComplete },
     });
+
+    return updatedTask;
   });
 
   return result;
 };
 
-export const removeTask = async (id: string): Promise<void> => {
+export const removeTask = async (id: string): Promise<IDeletedTask> => {
   if (!id) throw new AppError("Task ID is required", 400);
-  const task = await prisma.task.delete({ where: { id } });
-  if (!task) throw new AppError("Task not found", 404);
+
+  const result = await prisma.$transaction(async (tx) => {
+    const task = await tx.task.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+    if (!task) throw new AppError("Task not found", 404);
+
+    const deletedTask = await tx.task.delete({
+      where: { id },
+      select: { id: true, isComplete: true },
+    });
+
+    return deletedTask;
+  });
+
+  return result;
 };
