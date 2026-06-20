@@ -3,10 +3,11 @@ import { AppError } from "../libs/errors";
 import {
   createTask,
   editTask,
+  endTask,
   findAllTasks,
   findTaskById,
-  markTask,
   removeTask,
+  startTask,
 } from "../services/task.service";
 
 export const postTask = async (request: Request, response: Response) => {
@@ -99,16 +100,44 @@ export const putTask = async (request: Request, response: Response) => {
   }
 };
 
-export const markTaskController = async (
+export const startTaskController = async (
   request: Request,
   response: Response,
 ) => {
   try {
     const { taskId } = request.params;
-    const task = await markTask(taskId as string);
+    const task = await startTask(taskId as string);
     return response.status(200).json({
       success: true,
-      message: `Task marked as ${task.isComplete ? "completed" : "incomplete"}`,
+      message: "Task started successfully",
+      task,
+    });
+  } catch (error) {
+    console.error("Get task by id failed", error);
+
+    let errMessage = "Internal server error";
+    let statusCode = 500;
+
+    if (error instanceof AppError) {
+      errMessage = error.message;
+      statusCode = error.statusCode;
+    }
+
+    return response.status(statusCode).json({ message: errMessage });
+  }
+};
+
+export const endTaskController = async (
+  request: Request,
+  response: Response,
+) => {
+  try {
+    const { taskId } = request.params;
+    const task = await endTask(taskId as string);
+    return response.status(200).json({
+      success: true,
+      message: "Task ended successfully",
+      task,
     });
   } catch (error) {
     console.error("Get task by id failed", error);
