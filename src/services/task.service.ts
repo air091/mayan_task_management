@@ -33,7 +33,7 @@ export const editTask = async (
   id: string,
   taskPayload: ITaskPayload,
 ): Promise<ITask> => {
-  if (!id) throw new AppError("Task ID is required", 404);
+  if (!id) throw new AppError("Task ID is required", 400);
 
   if (taskPayload.title !== undefined) {
     taskPayload.title = taskPayload.title.trim();
@@ -54,4 +54,11 @@ export const editTask = async (
   if (!task) throw new AppError("Task not found", 404);
 
   return task;
+};
+
+export const deleteTask = async (id: string): Promise<boolean> => {
+  if (!id) throw new AppError("Task ID is required", 400);
+  const task = await prisma.task.delete({ where: { id } });
+  if (!task) throw new AppError("Task not found", 404);
+  return true;
 };
