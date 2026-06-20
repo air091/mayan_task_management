@@ -56,6 +56,22 @@ export const editTask = async (
   return task;
 };
 
+export const markTask = async (id: string) => {
+  if (!id) throw new AppError("Task ID is required", 400);
+
+  const result = await prisma.$transaction(async (tx) => {
+    const task = await tx.task.findUnique({ where: { id } });
+    if (!task) throw new AppError("Task not found", 404);
+
+    await tx.task.updateMany({
+      where: { id },
+      data: { isComplete: !task.isComplete },
+    });
+  });
+
+  return result;
+};
+
 export const removeTask = async (id: string): Promise<void> => {
   if (!id) throw new AppError("Task ID is required", 400);
   const task = await prisma.task.delete({ where: { id } });
