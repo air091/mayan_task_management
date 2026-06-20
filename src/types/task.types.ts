@@ -2,7 +2,8 @@ export interface ITask {
   id: string;
   title: string;
   description: string | null;
-  isComplete: boolean;
+  startedAt: Date | null;
+  endedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -10,9 +11,4 @@ export interface ITask {
 export interface ITaskPayload {
   title: string;
   description: string;
-}
-
-export interface IDeletedTask {
-  id: string;
-  isComplete: boolean;
 }

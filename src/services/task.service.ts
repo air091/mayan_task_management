@@ -1,6 +1,6 @@
 import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
-import type { IDeletedTask, ITask, ITaskPayload } from "../types/task.types";
+import type { ITask, ITaskPayload } from "../types/task.types";
 
 export const createTask = async (taskPayload: ITaskPayload): Promise<ITask> => {
   if (!taskPayload.title) throw new AppError("All fields are required", 400);
@@ -56,31 +56,45 @@ export const editTask = async (
   return task;
 };
 
-export const markTask = async (id: string) => {
+export const startTask = async (id: string) => {
   if (!id) throw new AppError("Task ID is required", 400);
 
   const result = await prisma.$transaction(async (tx) => {
-    const task = await prisma.task.findUnique({
-      where: { id },
-      select: { id: true, isComplete: true },
-    });
+    const task = await tx.task.findUnique({ where: { id } });
     if (!task) throw new AppError("Task not found", 404);
 
-    const updatedTask = await prisma.task.update({
-      where: { id },
-      data: { isComplete: !task.isComplete },
+    return await tx.task.updateMany({
+      where: { id, startedAt: null },
+      data: { startedAt: new Date() },
     });
-
-    return updatedTask;
   });
+
+  if (result.count === 0) throw new AppError("Task not found", 404);
 
   return result;
 };
 
-export const removeTask = async (id: string): Promise<IDeletedTask> => {
+export const endTask = async (id: string) => {
   if (!id) throw new AppError("Task ID is required", 400);
 
   const result = await prisma.$transaction(async (tx) => {
+    const task = await tx.task.findUnique({ where: { id } });
+    if (!task) throw new AppError("Task not found", 404);
+
+    return await tx.task.updateMany({
+      where: { id, startedAt: task.startedAt, endedAt: null },
+      data: { endedAt: new Date() },
+    });
+  });
+  if (result.count === 0) throw new AppError("Task not found", 404);
+
+  return result;
+};
+
+export const removeTask = async (id: string): Promise<void> => {
+  if (!id) throw new AppError("Task ID is required", 400);
+
+  await prisma.$transaction(async (tx) => {
     const task = await tx.task.findUnique({
       where: { id },
       select: { id: true },
@@ -89,11 +103,9 @@ export const removeTask = async (id: string): Promise<IDeletedTask> => {
 
     const deletedTask = await tx.task.delete({
       where: { id },
-      select: { id: true, isComplete: true },
+      select: { id: true },
     });
 
     return deletedTask;
   });
-
-  return result;
 };
