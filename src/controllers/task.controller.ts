@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { AppError } from "../libs/errors";
 import {
   createTask,
+  editTask,
   findAllTasks,
   findTaskById,
 } from "../services/task.service";
@@ -57,6 +58,30 @@ export const getTaskById = async (request: Request, response: Response) => {
     return response
       .status(200)
       .json({ success: true, message: "Task fetched successfully", task });
+  } catch (error) {
+    console.error("Get task by id failed", error);
+
+    let errMessage = "Internal server error";
+    let statusCode = 500;
+
+    if (error instanceof AppError) {
+      errMessage = error.message;
+      statusCode = error.statusCode;
+    }
+
+    return response.status(statusCode).json({ message: errMessage });
+  }
+};
+
+export const putTask = async (request: Request, response: Response) => {
+  try {
+    const { taskId } = request.params;
+    const { title, description } = request.body;
+
+    const task = await editTask(taskId as string, { title, description });
+    return response
+      .status(200)
+      .json({ success: true, message: "Task updated successfully", task });
   } catch (error) {
     console.error("Get task by id failed", error);
 
