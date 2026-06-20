@@ -16,7 +16,8 @@ model Task {
   id              String @id @default(cuid())
   title           String
   description     String?
-  isComplete      Boolean @default(false)
+  startedAt       DateTime?
+  endedAt         DateTime?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
