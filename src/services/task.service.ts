@@ -1,8 +1,8 @@
 import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
-import type { ICreateTask, ITask } from "../types/task.types";
+import type { ITask, ITaskPayload } from "../types/task.types";
 
-export const createTask = async (taskPayload: ICreateTask): Promise<ITask> => {
+export const createTask = async (taskPayload: ITaskPayload): Promise<ITask> => {
   if (!taskPayload.title) throw new AppError("All fields are required", 400);
 
   taskPayload.title = taskPayload.title.trim();
@@ -26,5 +26,32 @@ export const findTaskById = async (id: string): Promise<ITask> => {
   if (!id) throw new AppError("Task ID is required", 404);
   const task = await prisma.task.findUnique({ where: { id } });
   if (!task) throw new AppError("Task not found", 404);
+  return task;
+};
+
+export const editTask = async (
+  id: string,
+  taskPayload: ITaskPayload,
+): Promise<ITask> => {
+  if (!id) throw new AppError("Task ID is required", 404);
+
+  if (taskPayload.title !== undefined) {
+    taskPayload.title = taskPayload.title.trim();
+  }
+
+  if (taskPayload.description !== undefined) {
+    taskPayload.description = taskPayload.description.trim();
+  }
+
+  const task = await prisma.task.update({
+    where: { id },
+    data: {
+      title: taskPayload.title,
+      description: taskPayload.description,
+    },
+  });
+
+  if (!task) throw new AppError("Task not found", 404);
+
   return task;
 };

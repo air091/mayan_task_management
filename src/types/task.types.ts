@@ -7,7 +7,7 @@ export interface ITask {
   updatedAt: Date;
 }
 
-export interface ICreateTask {
+export interface ITaskPayload {
   title: string;
   description: string;
 }
