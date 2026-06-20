@@ -98,7 +98,7 @@ export const putTask = async (request: Request, response: Response) => {
   }
 };
 
-export const deleteTaskC = async (request: Request, response: Response) => {
+export const deleteTask = async (request: Request, response: Response) => {
   try {
     const { taskId } = request.params;
     await removeTask(taskId as string);
