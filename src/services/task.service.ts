@@ -56,9 +56,8 @@ export const editTask = async (
   return task;
 };
 
-export const deleteTask = async (id: string): Promise<boolean> => {
+export const removeTask = async (id: string): Promise<void> => {
   if (!id) throw new AppError("Task ID is required", 400);
   const task = await prisma.task.delete({ where: { id } });
   if (!task) throw new AppError("Task not found", 404);
-  return true;
 };
