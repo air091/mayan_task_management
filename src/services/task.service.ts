@@ -23,7 +23,9 @@ export const searchTasksWithFilters = async (
     whereClause.NOT = { startedAt: null }; // Must be started
     whereClause.endedAt = null; // But not ended yet
   } else if (status === "inactive") {
-    whereClause.NOT = { endedAt: null }; // Must be completed/ended
+    whereClause.startedAt = null; // Must be completed/ended
+  } else if (status === "completed") {
+    whereClause.NOT = [{ startedAt: null }, { endedAt: null }];
   }
 
   // 3. Execute the single combined query
