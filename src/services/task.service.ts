@@ -1,21 +1,36 @@
+import type { Prisma } from "../../generated/prisma/client";
 import { AppError } from "../libs/errors";
 import { prisma } from "../libs/prisma";
 import type { ITask, ITaskPayload } from "../types/task.types";
 
-export const searchTaskName = async (title: string) => {
-  if (!title) throw new AppError("No title", 400);
-  const task = await prisma.task.findMany({
-    where: {
-      title: {
-        contains: title,
-        mode: "insensitive",
-      },
-    },
+export const searchTasksWithFilters = async (
+  name?: string,
+  status?: string,
+) => {
+  // Initialize a base where clause
+  const whereClause: Prisma.TaskWhereInput = {};
+
+  // 1. Add Search Filter (if provided)
+  if (name) {
+    whereClause.title = {
+      contains: name,
+      mode: "insensitive",
+    };
+  }
+
+  // 2. Add Status Filter (if provided and not "All")
+  if (status === "active") {
+    whereClause.NOT = { startedAt: null }; // Must be started
+    whereClause.endedAt = null; // But not ended yet
+  } else if (status === "inactive") {
+    whereClause.NOT = { endedAt: null }; // Must be completed/ended
+  }
+
+  // 3. Execute the single combined query
+  return await prisma.task.findMany({
+    where: whereClause,
+    orderBy: { createdAt: "desc" }, // Optional: show newest tasks first
   });
-
-  if (!task) throw new AppError("Task not found", 404);
-
-  return task;
 };
 
 export const createTask = async (taskPayload: ITaskPayload): Promise<ITask> => {

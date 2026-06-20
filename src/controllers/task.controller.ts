@@ -4,29 +4,30 @@ import {
   createTask,
   editTask,
   endTask,
-  findAllTasks,
   findTaskById,
   removeTask,
-  searchTaskName,
+  searchTasksWithFilters,
   startTask,
 } from "../services/task.service";
 
-export const searchTaskByNameController = async (
+export const filterTaskController = async (
   request: Request,
   response: Response,
 ) => {
   try {
-    const { title } = request.query;
+    const { name, status } = request.query;
 
-    if (!title || typeof title !== "string")
-      return response
-        .status(400)
-        .json({ success: false, message: "Title is required to search" });
+    const tasks = await searchTasksWithFilters(
+      name as string | undefined,
+      status as string | undefined,
+    );
 
-    const tasks = await searchTaskName(title as string);
-    return response
-      .status(200)
-      .json({ success: true, message: "Tasks fetched successfully", tasks });
+    return response.status(200).json({
+      success: true,
+      message: "Tasks fetched successfully",
+      count: tasks.length,
+      tasks,
+    });
   } catch (error) {
     console.error("Post task failed", error);
     let errMessage = "Internal server error";
@@ -63,27 +64,6 @@ export const postTask = async (request: Request, response: Response) => {
     return response
       .status(statusCode)
       .json({ success: false, message: errMessage });
-  }
-};
-
-export const getAllTask = async (request: Request, response: Response) => {
-  try {
-    const tasks = await findAllTasks();
-    return response
-      .status(200)
-      .json({ success: true, message: "Tasks fetched successfully", tasks });
-  } catch (error) {
-    console.error("Get task by id failed", error);
-
-    let errMessage = "Internal server error";
-    let statusCode = 500;
-
-    if (error instanceof AppError) {
-      errMessage = error.message;
-      statusCode = error.statusCode;
-    }
-
-    return response.status(statusCode).json({ message: errMessage });
   }
 };
 
