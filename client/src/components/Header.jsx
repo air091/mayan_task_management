@@ -1,6 +1,8 @@
 import { Search, X } from "lucide-react";
+import { useTasks } from "../hooks/useTasks";
 
-const Header = ({ search, setSearch, filter, setFilter }) => {
+const Header = () => {
+  const { search, setSearch } = useTasks();
   return (
     <header>
       <h1 className="flex items-center justify-center gap-x-2 px-4 font-bold text-2xl mb-2">

@@ -1,7 +1,10 @@
 import { Trash } from "lucide-react";
 import React from "react";
+import { useTasks } from "../hooks/useTasks";
 
-const MainContent = ({ tasks }) => {
+const MainContent = () => {
+  const { tasks } = useTasks();
+
   const formatDate = (date) => {
     if (!date) return null;
     const rawDate = new Date(date);
