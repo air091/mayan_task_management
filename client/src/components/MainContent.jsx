@@ -14,24 +14,24 @@ const MainContent = () => {
   };
 
   return (
-    <main className="px-2 h-full overflow-y-auto overflow-x-hidden base-scrollbar relative">
-      <table className="w-full table-fixed border-collapse">
+    <main className="px-4 h-full overflow-y-auto overflow-x-auto base-scrollbar relative pb-6">
+      <table className="w-full min-w-[340px] md:table-fixed border-collapse">
         <thead>
           <tr className="cursor-default">
-            {/* Raised header sizing to 14px text-sm and extra top-bottom padding track */}
-            <th className="sticky top-0 bg-white z-10 text-left px-4 py-3 text-sm font-bold text-stone-600 tracking-tight border-b border-stone-200">
+            <th className="sticky top-0 bg-white mountaineer-header z-10 text-left py-3 pr-2 text-sm font-bold text-stone-600 tracking-tight border-b border-stone-200">
               Title
             </th>
-            <th className="sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[180px] border-b border-stone-200">
+            {/* 💡 HIDDEN ON MOBILE: Revealed exclusively starting at 'md' tablets */}
+            <th className="hidden md:table-cell sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[120px] border-b border-stone-200">
               Started at
             </th>
-            <th className="sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[180px] border-b border-stone-200">
+            <th className="hidden md:table-cell sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[120px] border-b border-stone-200">
               Ended at
             </th>
-            <th className="sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[140px] border-b border-stone-200">
+            <th className="sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[100px] sm:w-[100px] border-b border-stone-200">
               Status
             </th>
-            <th className="sticky top-0 bg-white z-10 text-center px-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[140px] border-b border-stone-200">
+            <th className="sticky top-0 bg-white z-10 text-center pl-2 py-3 text-sm font-bold text-stone-600 tracking-tight w-[110px] sm:w-[140px] border-b border-stone-200">
               Actions
             </th>
           </tr>
@@ -44,16 +44,19 @@ const MainContent = () => {
                 key={task.id}
                 className="group odd:bg-white even:bg-stone-50/60 hover:bg-stone-100/80 cursor-pointer transition-colors duration-150"
               >
-                <td className="py-3.5 px-4 rounded-l-xl">
-                  <span className="font-semibold text-stone-900 block truncate w-full max-w-[292px] text-base group-hover:text-black">
+                {/* Title & Description Column */}
+                <td className="py-3.5 pr-2 rounded-l-xl">
+                  {/* Dynamic text max-width allocation handles long text truncation smoothly */}
+                  <span className="font-semibold text-stone-900 block truncate w-full max-w-[160px] sm:max-w-[292px] text-sm sm:text-base group-hover:text-black">
                     {task.title}
                   </span>
-                  <span className="text-xs block truncate w-[220px] text-stone-400 mt-1 group-hover:text-stone-500 transition-colors">
+                  <span className="text-xs block truncate w-full max-w-[140px] sm:max-w-[220px] text-stone-400 mt-1 group-hover:text-stone-500 transition-colors">
                     {task.description || "No description provided"}
                   </span>
                 </td>
 
-                <td className="py-3.5 px-2">
+                {/* Started At Column — Hidden on Mobile */}
+                <td className="hidden md:table-cell py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.startedAt ? (
                       <span className="px-3 py-1 text-xs rounded-md font-medium bg-stone-100 text-stone-700 border border-stone-200/50 whitespace-nowrap">
@@ -67,7 +70,8 @@ const MainContent = () => {
                   </div>
                 </td>
 
-                <td className="py-3.5 px-2">
+                {/* Ended At Column — Hidden on Mobile */}
+                <td className="hidden md:table-cell py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.endedAt ? (
                       <span className="px-3 py-1 text-xs rounded-md font-medium bg-stone-100 text-stone-700 border border-stone-200/50 whitespace-nowrap">
@@ -81,38 +85,40 @@ const MainContent = () => {
                   </div>
                 </td>
 
+                {/* Status Badges — Dynamically adjusts sizes for compact mobile rows */}
                 <td className="py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.startedAt !== null && task.endedAt ? (
-                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-semibold text-xs px-3 py-1 rounded-md">
-                        Completed
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
+                        Done
                       </span>
                     ) : task.startedAt !== null ? (
-                      <span className="bg-amber-50 text-amber-700 border border-amber-200/60 font-semibold text-xs px-3 py-1 rounded-md">
+                      <span className="bg-amber-50 text-amber-700 border border-amber-200/60 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
                         Active
                       </span>
                     ) : (
-                      <span className="bg-stone-100 text-stone-600 border border-stone-200 font-semibold text-xs px-3 py-1 rounded-md">
-                        Inactive
+                      <span className="bg-stone-100 text-stone-600 border border-stone-200 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
+                        Open
                       </span>
                     )}
                   </div>
                 </td>
 
-                <td className="py-3.5 px-2 rounded-r-xl">
-                  <div className="flex items-center justify-center gap-x-2">
+                {/* Actions Panel — Adaptive padding blocks layout breaks */}
+                <td className="py-3.5 pl-2 rounded-r-xl">
+                  <div className="flex items-center justify-center gap-x-1 sm:gap-x-2">
                     {task.startedAt !== null &&
                     task.endedAt ? null : task.startedAt !== null ? (
-                      <button className="cursor-pointer bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition-all shadow-sm">
+                      <button className="cursor-pointer bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm">
                         End
                       </button>
                     ) : (
-                      <button className="cursor-pointer bg-stone-900 hover:bg-stone-800 active:scale-95 text-white font-semibold text-xs px-3 py-1.5 rounded-lg transition-all shadow-sm">
+                      <button className="cursor-pointer bg-stone-900 hover:bg-stone-800 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm">
                         Start
                       </button>
                     )}
-                    <button className="text-stone-400 p-1.5 rounded-lg cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all">
-                      <Trash size={16} /> {/* Increased from 14 */}
+                    <button className="text-stone-400 p-1 sm:p-1.5 rounded-lg cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all shrink-0">
+                      <Trash size={15} />
                     </button>
                   </div>
                 </td>
