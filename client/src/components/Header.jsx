@@ -10,7 +10,7 @@ const Header = () => {
         <span className="separator border-l border h-8"></span>
         Task Management
       </h1>
-      <div className="flex justify-center py-2">
+      <div className="flex flex-col items-center justify-center py-2 border">
         <div className="relative w-full max-w-[360px]">
           <input
             type="search"
@@ -28,6 +28,20 @@ const Header = () => {
           >
             {search.length > 0 && <X size={20} />}
           </button>
+          <div className="filters border flex items-center justify-end py-1">
+            <button className="px-2 text-[14px] cursor-pointer hover:border-b-2 hover:border-gray-300">
+              All
+            </button>
+            <button className="px-2 text-[14px] cursor-pointer hover:border-b-2 hover:border-gray-300">
+              Inactive
+            </button>
+            <button className="px-2 text-[14px] cursor-pointer hover:border-b-2 hover:border-gray-300">
+              Active
+            </button>
+            <button className="px-2 text-[14px] cursor-pointer hover:border-b-2 hover:border-gray-300">
+              Completed
+            </button>
+          </div>
         </div>
       </div>
     </header>

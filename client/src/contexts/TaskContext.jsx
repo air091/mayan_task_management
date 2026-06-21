@@ -5,10 +5,18 @@ export const TaskContext = createContext();
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const getAllTasks = async () => {
-      const url = `http://localhost:3000/api/tasks${search ? `?name=${search}` : ""}`;
+      const params = {};
+      if (search.trim() !== "") params.name = search;
+      if (filter !== "all" && filter !== "") params.status = filter;
+
+      const queryString = new URLSearchParams(params).toString();
+
+      const baseURL = "http://localhost:3000/api/tasks";
+      const url = queryString ? `${baseURL}?${queryString}` : baseURL;
       try {
         const response = await fetch(url, {
           method: "GET",
@@ -21,10 +29,12 @@ export const TaskProvider = ({ children }) => {
       }
     };
     getAllTasks();
-  }, [search]);
+  }, [tasks, search, filter]);
 
   return (
-    <TaskContext.Provider value={{ tasks, setTasks, search, setSearch }}>
+    <TaskContext.Provider
+      value={{ tasks, setTasks, search, setSearch, filter, setFilter }}
+    >
       {children}
     </TaskContext.Provider>
   );
