@@ -6,6 +6,7 @@ import MainContent from "../components/MainContent";
 const Home = () => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const getAllTasks = async () => {
@@ -27,7 +28,12 @@ const Home = () => {
   return (
     <div className="h-screen py-4">
       <div className="relative mx-auto flex flex-col w-full max-w-[1020px] py-3 px-1 h-full overflow-y-hidden">
-        <Header search={search} setSearch={setSearch} />
+        <Header
+          search={search}
+          setSearch={setSearch}
+          filter={filter}
+          setFilter={setFilter}
+        />
         <MainContent tasks={tasks} />
         <button className="absolute bottom-2 right-2 block bg-green-500 hover:bg-green-600 cursor-pointer text-white rounded-full p-2">
           <Plus size={32} />
