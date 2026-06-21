@@ -5,8 +5,8 @@ const Header = ({ search, setSearch, filter, setFilter }) => {
     <header>
       <h1 className="flex items-center justify-center gap-x-2 px-4 font-bold text-2xl mb-2">
         Mayan
-        <span className="separator border-l border h-5"></span>
-        Task management
+        <span className="separator border-l border h-8"></span>
+        Task Management
       </h1>
       <div className="flex justify-center py-2">
         <div className="relative w-full max-w-[360px]">
@@ -24,7 +24,7 @@ const Header = ({ search, setSearch, filter, setFilter }) => {
             onClick={() => setSearch("")}
             className="absolute top-[6px] right-2 cursor-pointer"
           >
-            <X size={20} />
+            {search.length > 0 && <X size={20} />}
           </button>
         </div>
       </div>
