@@ -12,7 +12,7 @@ const MainContent = ({ tasks }) => {
 
   return (
     <main className="px-2">
-      <table className="w-full">
+      <table className="w-full border-collapse">
         <thead>
           <tr>
             <th className="text-start px-4 py-1 text-[14px] font-regular text-stone-600">
@@ -34,13 +34,10 @@ const MainContent = ({ tasks }) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr
-              key={task.id}
-              className="bg-gray-50 hover:bg-gray-200 cursor-pointer"
-            >
+            <tr key={task.id} className="hover:bg-gray-100 cursor-pointer">
               <td className="py-1 px-4 rounded-l">
                 <span className="font-medium">{task.title}</span>
-                <span className="text-[10px] block truncate w-[192px]">
+                <span className="text-[10px] block truncate w-[192px] text-gray-500">
                   {task.description}
                 </span>
               </td>

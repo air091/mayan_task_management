@@ -1,4 +1,4 @@
-const Header = () => {
+const Header = ({ search, setSearch }) => {
   return (
     <header>
       <h1 className="flex items-center justify-center gap-x-2 px-4 font-bold text-2xl mb-2">
@@ -10,6 +10,8 @@ const Header = () => {
         <input
           type="search"
           placeholder="Search name"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
           className="border w-full max-w-[360px] py-1 px-4 rounded-full"
         />
       </div>
