@@ -9,7 +9,7 @@ const Header = ({ search, setSearch }) => {
       <div className="flex justify-center py-2">
         <input
           type="search"
-          placeholder="Search name"
+          placeholder="Search task"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           className="border w-full max-w-[360px] py-1 px-4 rounded-full"

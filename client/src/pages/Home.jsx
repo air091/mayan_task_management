@@ -25,8 +25,8 @@ const Home = () => {
   }, [search]);
 
   return (
-    <div className="border h-screen py-4">
-      <div className="relative mx-auto w-full max-w-[1020px] py-3 px-1 border h-full">
+    <div className="h-screen py-4">
+      <div className="relative mx-auto flex flex-col w-full max-w-[1020px] py-3 px-1 h-full overflow-y-hidden">
         <Header search={search} setSearch={setSearch} />
         <MainContent tasks={tasks} />
         <button className="absolute bottom-2 right-2 block bg-green-500 hover:bg-green-600 cursor-pointer text-white rounded-full p-2">

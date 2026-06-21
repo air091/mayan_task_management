@@ -3,6 +3,7 @@ import React from "react";
 
 const MainContent = ({ tasks }) => {
   const formatDate = (date) => {
+    if (!date) return null;
     const rawDate = new Date(date);
     const year = rawDate.getFullYear();
     const month = String(rawDate.getMonth() + 1).padStart(2, "0");
@@ -11,11 +12,11 @@ const MainContent = ({ tasks }) => {
   };
 
   return (
-    <main className="px-2">
+    <main className="px-2 h-full overflow-y-auto">
       <table className="w-full border-collapse">
         <thead>
-          <tr>
-            <th className="text-start px-4 py-1 text-[14px] font-regular text-stone-600">
+          <tr className="cursor-default">
+            <th className="text-left px-4 py-1 text-[14px] font-regular text-stone-600">
               Title
             </th>
             <th className="text-center px-2 py-1 text-[14px] font-regular text-stone-600 w-[180px]">
@@ -34,26 +35,35 @@ const MainContent = ({ tasks }) => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id} className="hover:bg-gray-100 cursor-pointer">
+            <tr
+              key={task.id}
+              className="hover:bg-gray-300/80 even:bg-white odd:bg-stone-200/70 cursor-pointer"
+            >
               <td className="py-1 px-4 rounded-l">
-                <span className="font-medium">{task.title}</span>
+                <span className="font-medium block truncate w-full max-w-[292px]">
+                  {task.title}
+                </span>
                 <span className="text-[10px] block truncate w-[192px] text-gray-500">
                   {task.description}
                 </span>
               </td>
               <td className="py-1 px-2">
-                <div className="flex justify-center">
-                  <span className=" px-3 py-1 text-[12px] rounded-full font-medium bg-green-600 text-white">
-                    {formatDate(task.startedAt)}
-                  </span>
-                </div>
+                {task.startedAt && (
+                  <div className="flex justify-center">
+                    <span className=" px-3 py-1 text-[12px] rounded-full font-medium bg-green-600 text-white">
+                      {formatDate(task.startedAt)}
+                    </span>
+                  </div>
+                )}
               </td>
               <td className="py-1 px-2">
-                <div className="flex justify-center">
-                  <span className=" px-3 py-1 text-[12px] rounded-full font-medium bg-red-600 text-white">
-                    {formatDate(task.endedAt)}
-                  </span>
-                </div>
+                {task.endedAt && (
+                  <div className="flex justify-center">
+                    <span className=" px-3 py-1 text-[12px] rounded-full font-medium bg-red-600 text-white">
+                      {formatDate(task.endedAt)}
+                    </span>
+                  </div>
+                )}
               </td>
               <td className="py-1 px-2">
                 <div className="flex justify-center ">
