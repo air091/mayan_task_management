@@ -26,6 +26,38 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
+  const startTask = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/tasks/${id}/start`,
+        {
+          method: "PUT",
+        },
+      );
+      const data = await response.json();
+      if (!data.success) throw new Error(data?.message);
+      await getAllTasks();
+    } catch (error) {
+      console.error("Delete task failed", error);
+    }
+  };
+
+  const endTask = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/tasks/${id}/end`,
+        {
+          method: "PUT",
+        },
+      );
+      const data = await response.json();
+      if (!data.success) throw new Error(data?.message);
+      await getAllTasks();
+    } catch (error) {
+      console.error("Delete task failed", error);
+    }
+  };
+
   const deleteTask = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/api/tasks/${id}`, {
@@ -69,6 +101,8 @@ export const TaskProvider = ({ children }) => {
       value={{
         tasks,
         createTask,
+        startTask,
+        endTask,
         deleteTask,
         setTasks,
         search,

@@ -4,7 +4,14 @@ import { useTasks } from "../hooks/useTasks";
 import TaskModal from "./TaskModal";
 
 const MainContent = () => {
-  const { tasks, selectedTask, setSelectedTask, deleteTask } = useTasks();
+  const {
+    tasks,
+    selectedTask,
+    setSelectedTask,
+    startTask,
+    endTask,
+    deleteTask,
+  } = useTasks();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formatDate = (date) => {
@@ -116,11 +123,23 @@ const MainContent = () => {
                   <div className="flex items-center justify-center gap-x-1 sm:gap-x-2">
                     {task.startedAt !== null &&
                     task.endedAt ? null : task.startedAt !== null ? (
-                      <button className="cursor-pointer bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm">
+                      <button
+                        onClick={async (event) => {
+                          event.stopPropagation();
+                          await endTask(task.id);
+                        }}
+                        className="cursor-pointer bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm"
+                      >
                         End
                       </button>
                     ) : (
-                      <button className="cursor-pointer bg-stone-900 hover:bg-stone-800 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm">
+                      <button
+                        onClick={async (event) => {
+                          event.stopPropagation();
+                          await startTask(task.id);
+                        }}
+                        className="cursor-pointer bg-stone-900 hover:bg-stone-800 active:scale-95 text-white font-semibold text-[11px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-sm"
+                      >
                         Start
                       </button>
                     )}
