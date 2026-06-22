@@ -96,7 +96,7 @@ const MainContent = () => {
                   <div className="flex justify-center">
                     {task.startedAt !== null && task.endedAt ? (
                       <span className="bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
-                        Done
+                        Completed
                       </span>
                     ) : task.startedAt !== null ? (
                       <span className="bg-amber-50 text-amber-700 border border-amber-200/60 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
@@ -104,7 +104,7 @@ const MainContent = () => {
                       </span>
                     ) : (
                       <span className="bg-stone-100 text-stone-600 border border-stone-200 font-semibold text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-md">
-                        Open
+                        Inactive
                       </span>
                     )}
                   </div>
