@@ -26,6 +26,19 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
+  const deleteTask = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (!data.success) throw new Error(data?.message);
+      await getAllTasks();
+    } catch (error) {
+      console.error("Delete task failed", error);
+    }
+  };
+
   const getAllTasks = useCallback(async () => {
     const params = {};
     if (search.trim() !== "") params.name = search;
@@ -56,6 +69,7 @@ export const TaskProvider = ({ children }) => {
       value={{
         tasks,
         createTask,
+        deleteTask,
         setTasks,
         search,
         setSearch,

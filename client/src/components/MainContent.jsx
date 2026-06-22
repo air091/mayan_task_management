@@ -4,7 +4,7 @@ import { useTasks } from "../hooks/useTasks";
 import TaskModal from "./TaskModal";
 
 const MainContent = () => {
-  const { tasks, setSelectedTask } = useTasks();
+  const { tasks, selectedTask, setSelectedTask, deleteTask } = useTasks();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formatDate = (date) => {
@@ -124,7 +124,10 @@ const MainContent = () => {
                         Start
                       </button>
                     )}
-                    <button className="text-stone-400 p-1 sm:p-1.5 rounded-lg cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all shrink-0">
+                    <button
+                      onClick={async () => await deleteTask(task.id)}
+                      className="text-stone-400 p-1 sm:p-1.5 rounded-lg cursor-pointer hover:bg-red-50 hover:text-red-600 transition-all shrink-0"
+                    >
                       <Trash size={15} />
                     </button>
                   </div>
