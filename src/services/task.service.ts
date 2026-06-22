@@ -36,7 +36,7 @@ export const searchTasksWithFilters = async (
       },
       {
         startedAt: {
-          sort: "asc",
+          sort: "desc",
           nulls: "last",
         },
       },
