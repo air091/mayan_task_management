@@ -2,6 +2,10 @@
 
 A basic task management web application with tracking active, inactive, and completed tasks.
 
+<p align="center">
+  <img src="./assets/MAIN.png" alt="Mayan Task Management Dashboard" width="800">
+</p>
+
 ## TECH STACK
 
 ### FRONTEND
