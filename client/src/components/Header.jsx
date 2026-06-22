@@ -18,7 +18,7 @@ const Header = () => {
         </span>
       </h1>
 
-      <div className="flex flex-col gap-y-3 w-full max-w-[420px] mx-auto p-1 sm:p-3 bg-white">
+      <div className="flex flex-col gap-y-1 w-full max-w-[420px] mx-auto p-1 sm:p-3 bg-white">
         <div className="relative flex items-center w-full group">
           <span className="absolute left-3.5 text-stone-400 group-focus-within:text-stone-600 transition-colors pointer-events-none">
             <Search size={18} />
@@ -41,9 +41,7 @@ const Header = () => {
             </button>
           )}
         </div>
-
-        {/* Actions & Segmented Navigation Controls */}
-        <div className="w-full flex items-center justify-between gap-x-2 border-t border-stone-100 pt-3 mt-1">
+        <div className="w-full flex items-center justify-between gap-x-2 border-stone-100 pt-2">
           <button
             onClick={() => setIsModalOpen(true)}
             className="py-2 px-3.5 flex items-center gap-x-1.5 bg-stone-900 hover:bg-stone-800 active:scale-95 cursor-pointer rounded-xl text-sm font-semibold text-white shadow-sm transition-all duration-150 whitespace-nowrap shrink-0"

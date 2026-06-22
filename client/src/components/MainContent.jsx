@@ -1,9 +1,12 @@
 import { Trash } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
+import TaskModal from "./TaskModal";
 
 const MainContent = () => {
-  const { tasks } = useTasks();
+  const { tasks, setSelectedTask } = useTasks();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const formatDate = (date) => {
     if (!date) return null;
     const rawDate = new Date(date);
@@ -18,7 +21,7 @@ const MainContent = () => {
       <table className="w-full min-w-[340px] md:table-fixed border-collapse">
         <thead>
           <tr className="cursor-default">
-            <th className="sticky top-0 bg-white mountaineer-header z-10 text-left py-3 pr-2 text-sm font-bold text-stone-600 tracking-tight border-b border-stone-200">
+            <th className="sticky top-0 bg-white mountaineer-header z-10 text-left py-3 pr-2 pl-4 text-sm font-bold text-stone-600 tracking-tight border-b border-stone-200">
               Title
             </th>
             {/* 💡 HIDDEN ON MOBILE: Revealed exclusively starting at 'md' tablets */}
@@ -42,10 +45,14 @@ const MainContent = () => {
             tasks.map((task) => (
               <tr
                 key={task.id}
+                onClick={() => {
+                  setSelectedTask(task);
+                  setIsModalOpen(true);
+                }}
                 className="group odd:bg-white even:bg-stone-50/60 hover:bg-stone-100/80 cursor-pointer transition-colors duration-150"
               >
-                {/* Title & Description Column */}
-                <td className="py-3.5 pr-2 rounded-l-xl">
+                {/* title & description */}
+                <td className="py-3.5 pr-2 pl-4 rounded-l-xl">
                   {/* Dynamic text max-width allocation handles long text truncation smoothly */}
                   <span className="font-semibold text-stone-900 block truncate w-full max-w-[160px] sm:max-w-[292px] text-sm sm:text-base group-hover:text-black">
                     {task.title}
@@ -55,7 +62,7 @@ const MainContent = () => {
                   </span>
                 </td>
 
-                {/* Started At Column — Hidden on Mobile */}
+                {/* started at */}
                 <td className="hidden md:table-cell py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.startedAt ? (
@@ -70,7 +77,7 @@ const MainContent = () => {
                   </div>
                 </td>
 
-                {/* Ended At Column — Hidden on Mobile */}
+                {/* ended at */}
                 <td className="hidden md:table-cell py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.endedAt ? (
@@ -85,7 +92,7 @@ const MainContent = () => {
                   </div>
                 </td>
 
-                {/* Status Badges — Dynamically adjusts sizes for compact mobile rows */}
+                {/* status */}
                 <td className="py-3.5 px-2">
                   <div className="flex justify-center">
                     {task.startedAt !== null && task.endedAt ? (
@@ -104,7 +111,7 @@ const MainContent = () => {
                   </div>
                 </td>
 
-                {/* Actions Panel — Adaptive padding blocks layout breaks */}
+                {/* actions */}
                 <td className="py-3.5 pl-2 rounded-r-xl">
                   <div className="flex items-center justify-center gap-x-1 sm:gap-x-2">
                     {task.startedAt !== null &&
@@ -126,6 +133,7 @@ const MainContent = () => {
             ))
           ) : (
             <tr>
+              {/* not found */}
               <td colSpan={5} className="py-16 text-center">
                 <p className="text-base font-semibold text-stone-500">
                   No tasks found
@@ -138,6 +146,7 @@ const MainContent = () => {
           )}
         </tbody>
       </table>
+      <TaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </main>
   );
 };

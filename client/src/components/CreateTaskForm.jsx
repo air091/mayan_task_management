@@ -39,43 +39,62 @@ const CreateTaskForm = ({ isModalOpen, setIsModalOpen }) => {
       onClose={() => setIsModalOpen(false)}
       title="Create New Task"
     >
-      <form onSubmit={handleOnSubmit} className="flex flex-col gap-y-2 mt-4">
-        <label>
-          <span>Title</span>
+      <form
+        onSubmit={handleOnSubmit}
+        className="flex flex-col gap-y-4 mt-4 w-full"
+      >
+        <div className="flex flex-col gap-y-1.5 w-full">
+          <label
+            htmlFor="task-title"
+            className="text-xs font-semibold text-stone-600 select-none"
+          >
+            Title
+          </label>
           <input
+            id="task-title"
             type="text"
             name="name"
             value={taskPayload.name}
             onChange={handleOnChange}
-            placeholder="Ex. Task 1"
-            className="border border-gray-300 block w-full rounded-sm py-1 px-2 mt-1"
+            placeholder="Ex. Finish landing page layout"
+            autoComplete="off"
+            required
+            className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-all duration-200 hover:border-stone-300 focus:bg-white focus:border-stone-500 focus:ring-4 focus:ring-stone-100"
           />
-        </label>
+        </div>
 
-        <label>
-          <span>Description</span>
+        <div className="flex flex-col gap-y-1.5 w-full">
+          <label
+            htmlFor="task-description"
+            className="text-xs font-semibold text-stone-600 select-none"
+          >
+            Description
+          </label>
           <textarea
+            id="task-description"
             rows={3}
             name="description"
             value={taskPayload.description}
             onChange={handleOnChange}
-            placeholder="Ex. This is a task description"
-            className="border border-gray-300 block w-full rounded-sm py-1 px-2 mt-1"
+            placeholder="Ex. Task description"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50/50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-all duration-200 hover:border-stone-300 focus:bg-white focus:border-stone-500 focus:ring-4 focus:ring-stone-100 resize-none"
           />
-        </label>
+        </div>
 
-        <div className="flex items-center gap-x-4">
+        {/* 3. Action Buttons Group — Perfectly Responsive Footer Rows */}
+        <div className="flex items-center gap-x-3 pt-2 mt-2 border-t border-stone-100 w-full">
           <button
+            type="button" /* 💡 CRITICAL: Explicit type prevents form submission trigger */
             onClick={() => setIsModalOpen(false)}
-            className="w-full bg-gray-300 rounded-md font-medium py-1 cursor-pointer hover:bg-gray-400 hover:text-white"
+            className="w-full py-2.5 px-4 bg-stone-100 hover:bg-stone-200 text-stone-700 active:scale-98 font-semibold text-sm rounded-xl cursor-pointer transition-all duration-150 text-center"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="w-full bg-green-400 rounded-md font-medium py-1 text-white cursor-pointer hover:bg-green-500"
+            className="w-full py-2.5 px-4 bg-stone-900 hover:bg-stone-800 text-white active:scale-98 font-semibold text-sm rounded-xl cursor-pointer transition-all duration-150 text-center shadow-xs"
           >
-            Save
+            Save Task
           </button>
         </div>
       </form>

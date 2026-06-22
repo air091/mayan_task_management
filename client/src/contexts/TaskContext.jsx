@@ -6,6 +6,7 @@ export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     const getAllTasks = async () => {
@@ -29,11 +30,20 @@ export const TaskProvider = ({ children }) => {
       }
     };
     getAllTasks();
-  }, [tasks, search, filter]);
+  }, [search, filter]);
 
   return (
     <TaskContext.Provider
-      value={{ tasks, setTasks, search, setSearch, filter, setFilter }}
+      value={{
+        tasks,
+        setTasks,
+        search,
+        setSearch,
+        filter,
+        setFilter,
+        selectedTask,
+        setSelectedTask,
+      }}
     >
       {children}
     </TaskContext.Provider>

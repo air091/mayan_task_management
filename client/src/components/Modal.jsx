@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, children, title }) => {
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-2xl border border-stone-100 animate-in fade-in zoom-in-95 duration-150">
-        {/* Header Section */}
+        {/* header */}
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-stone-900">{title}</h3>
           <button
@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, children, title }) => {
           </button>
         </div>
 
-        {/* Content Section */}
+        {/* content */}
         <div>{children}</div>
       </div>
     </div>,
