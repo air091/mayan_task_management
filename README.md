@@ -10,15 +10,15 @@ A basic task management web application with tracking active, inactive, and comp
 
 ### FRONTEND
 
-- ReactJS
-- TailwindCSS (Styling)
+- `ReactJS`
+- `TailwindCSS` (Styling)
 
 ### BACKEND
 
-- NodeJS
-- ExpressJS
-- PostgreSQL (Database)
-- Prisma (Database ORM)
+- `NodeJS`
+- `ExpressJS`
+- `PostgreSQL` (Database)
+- `Prisma` (Database ORM)
 
 ### CORE DEPENDENCIES
 
@@ -28,10 +28,9 @@ A basic task management web application with tracking active, inactive, and comp
 
 ### MUST HAVE BEFORE INSTALLING TO LOCAL MACHINE:
 
-- NodeJS
-- npm
-- pnpm (optional)
-- PostgreSQL (Locally or on cloud)
+- `NodeJS`
+- `npm`
+- `PostgreSQL` (Locally or on cloud)
 
 ## SETUP & INSTALLATION
 
