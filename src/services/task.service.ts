@@ -7,10 +7,8 @@ export const searchTasksWithFilters = async (
   name?: string,
   status?: string,
 ) => {
-  // Initialize a base where clause
   const whereClause: Prisma.TaskWhereInput = {};
 
-  // 1. Add Search Filter (if provided)
   if (name) {
     whereClause.title = {
       contains: name,
@@ -18,20 +16,34 @@ export const searchTasksWithFilters = async (
     };
   }
 
-  // 2. Add Status Filter (if provided and not "All")
   if (status === "active") {
-    whereClause.NOT = { startedAt: null }; // Must be started
-    whereClause.endedAt = null; // But not ended yet
+    whereClause.NOT = { startedAt: null };
+    whereClause.endedAt = null;
   } else if (status === "inactive") {
-    whereClause.startedAt = null; // Must be completed/ended
+    whereClause.startedAt = null;
   } else if (status === "completed") {
     whereClause.NOT = [{ startedAt: null }, { endedAt: null }];
   }
 
-  // 3. Execute the single combined query
   return await prisma.task.findMany({
     where: whereClause,
-    orderBy: { createdAt: "desc" }, // Optional: show newest tasks first
+    orderBy: [
+      {
+        endedAt: {
+          sort: "asc",
+          nulls: "first",
+        },
+      },
+      {
+        startedAt: {
+          sort: "asc",
+          nulls: "last",
+        },
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
   });
 };
 
