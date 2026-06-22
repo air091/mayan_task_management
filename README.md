@@ -20,6 +20,12 @@ A basic task management web application with tracking active, inactive, and comp
 - PostgreSQL (Database)
 - Prisma (Database ORM)
 
+### CORE DEPENDENCIES
+
+- `lucide-react` (For frontend icons)
+- `@prisma/client` (For database queries)
+- `express` (For API routing)
+
 ### MUST HAVE BEFORE INSTALLING TO LOCAL MACHINE:
 
 - NodeJS
