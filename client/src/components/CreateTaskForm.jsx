@@ -1,25 +1,13 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
+import { useTasks } from "../hooks/useTasks";
 
 const CreateTaskForm = ({ isModalOpen, setIsModalOpen }) => {
-  const [taskPayload, setTaskPayload] = useState({ name: "", description: "" });
-
-  const createTask = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: taskPayload.name,
-          description: taskPayload.description,
-        }),
-      });
-      const data = await response.json();
-      if (!data.success) throw new Error(data?.message);
-    } catch (error) {
-      console.error("Create task failed", error);
-    }
-  };
+  const { createTask } = useTasks();
+  const [taskPayload, setTaskPayload] = useState({
+    title: "",
+    description: "",
+  });
 
   const handleOnChange = (event) => {
     const { name, value } = event.target;
@@ -29,7 +17,7 @@ const CreateTaskForm = ({ isModalOpen, setIsModalOpen }) => {
   const handleOnSubmit = async (event) => {
     event.preventDefault();
 
-    await createTask();
+    await createTask(taskPayload.title, taskPayload.description);
     setIsModalOpen(false);
   };
 
@@ -53,8 +41,8 @@ const CreateTaskForm = ({ isModalOpen, setIsModalOpen }) => {
           <input
             id="task-title"
             type="text"
-            name="name"
-            value={taskPayload.name}
+            name="title"
+            value={taskPayload.title}
             onChange={handleOnChange}
             placeholder="Ex. Finish landing page layout"
             autoComplete="off"
