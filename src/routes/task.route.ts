@@ -16,7 +16,8 @@ router.get("/:taskId", getTaskById);
 
 router.post("/", postTask);
 
-router.put("/:taskId", putTask); // edit task
+router.patch("/:taskId", putTask); // edit task
+
 router.put("/:taskId/start", startTaskController);
 router.put("/:taskId/end", endTaskController);
 

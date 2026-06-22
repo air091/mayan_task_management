@@ -18,6 +18,7 @@ const CreateTaskForm = ({ isModalOpen, setIsModalOpen }) => {
     event.preventDefault();
 
     await createTask(taskPayload.title, taskPayload.description);
+    setTaskPayload({ title: "", description: "" });
     setIsModalOpen(false);
   };
 

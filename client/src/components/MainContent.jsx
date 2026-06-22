@@ -2,6 +2,7 @@ import { Trash } from "lucide-react";
 import React, { useState } from "react";
 import { useTasks } from "../hooks/useTasks";
 import TaskModal from "./TaskModal";
+import { formatDate } from "../utils/DateFormatter";
 
 const MainContent = () => {
   const {
@@ -13,15 +14,6 @@ const MainContent = () => {
     deleteTask,
   } = useTasks();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const formatDate = (date) => {
-    if (!date) return null;
-    const rawDate = new Date(date);
-    const year = rawDate.getFullYear();
-    const month = String(rawDate.getMonth() + 1).padStart(2, "0");
-    const day = String(rawDate.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
 
   return (
     <main className="px-4 h-full overflow-y-auto overflow-x-auto base-scrollbar relative pb-6">
@@ -171,7 +163,10 @@ const MainContent = () => {
           )}
         </tbody>
       </table>
-      <TaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+
+      {isModalOpen && (
+        <TaskModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      )}
     </main>
   );
 };

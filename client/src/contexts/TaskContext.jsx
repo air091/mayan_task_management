@@ -58,6 +58,21 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
+  const editTask = async (id, title, description) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description }),
+      });
+      const data = await response.json();
+      if (!data.success) throw new Error(data?.message);
+      await getAllTasks();
+    } catch (error) {
+      console.error("Delete task failed", error);
+    }
+  };
+
   const deleteTask = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/api/tasks/${id}`, {
@@ -103,6 +118,7 @@ export const TaskProvider = ({ children }) => {
         createTask,
         startTask,
         endTask,
+        editTask,
         deleteTask,
         setTasks,
         search,
