@@ -29,10 +29,10 @@ Follow these steps to run the application:
 
 ### 1. CLONE THE REPOSITORY
 
-- ```bash
-  https://github.com/air091/mayan_task_management.git
-  cd mayan_task_management
-  ```
+```bash
+https://github.com/air091/mayan_task_management.git
+cd mayan_task_management
+```
 
 ### 2. INSTALL PROJECT DEPENDENCIES
 
